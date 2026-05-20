@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMF1 Intern Prediction Championship — Miami Bulletin</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f0f0ec;
+    font-family: 'Barlow', sans-serif;
+    color: #1a1a1a;
+    padding: 32px 16px;
+  }
+
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+    background: #fff;
+    border: 2px solid #1a1a1a;
+  }
+
+  .header {
+    background: #e8003d;
+    color: white;
+    padding: 24px 32px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header-flag {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 140px;
+    display: flex;
+  }
+
+  .flag-stripe {
+    flex: 1;
+    opacity: 0.12;
+  }
+
+  .flag-s1 { background: #000; }
+  .flag-s2 { background: #fff; }
+  .flag-s3 { background: #000; }
+  .flag-s4 { background: #fff; }
+  .flag-s5 { background: #000; }
+  .flag-s6 { background: #fff; }
+  .flag-s7 { background: #000; }
+
+  .fia-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.8;
+    margin-bottom: 4px;
+  }
+
+  .header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    position: relative;
+  }
+
+  .header h1 span {
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    opacity: 0.85;
+    margin-top: 2px;
+  }
+
+  .bulletin-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 16px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.75;
+    font-weight: 600;
+    position: relative;
+  }
+
+  .body {
+    padding: 32px;
+  }
+
+  .doc-number {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #e8003d;
+    margin-bottom: 20px;
+  }
+
+  .intro {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #222;
+    margin-bottom: 28px;
+    border-left: 3px solid #e8003d;
+    padding-left: 16px;
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 0.5px solid #ddd;
+  }
+
+  .verdict-block {
+    background: #fafaf8;
+    border: 1px solid #e5e5e0;
+    border-left: 4px solid #e8003d;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+
+  .verdict-block.winner {
+    border-left-color: #00a04a;
+  }
+
+  .verdict-block.loser {
+    border-left-color: #e8003d;
+  }
+
+  .verdict-block.notable {
+    border-left-color: #f5a623;
+  }
+
+  .verdict-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .verdict-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+  }
+
+  .verdict-score {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #888;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .verdict-block p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+  }
+
+  .standings-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .standings-table th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #999;
+    text-align: left;
+    padding: 6px 8px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .standings-table th:last-child { text-align: right; }
+
+  .standings-table td {
+    padding: 7px 8px;
+    border-bottom: 0.5px solid #f0f0ec;
+    color: #222;
+  }
+
+  .standings-table td:last-child {
+    text-align: right;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .standings-table tr.leader td {
+    background: #fff8e1;
+    font-weight: 500;
+  }
+
+  .pos-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #bbb;
+    width: 28px;
+    display: inline-block;
+  }
+
+  .pos-num.p1 { color: #e8b800; }
+  .pos-num.p2 { color: #aaa; }
+  .pos-num.p3 { color: #cd7f32; }
+
+  .round-score {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    color: #00a04a;
+    font-weight: 700;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #e5e5e0;
+    margin: 28px 0;
+  }
+
+  .canada-box {
+    background: #fff5f7;
+    border: 1px solid #fcc;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+  }
+
+  .canada-box h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #c0003a;
+    margin-bottom: 10px;
+  }
+
+  .canada-box p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #333;
+  }
+
+  .deadline-pill {
+    display: inline-block;
+    background: #e8003d;
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    margin-top: 10px;
+  }
+
+  .links-section {
+    background: #f5f5f0;
+    border: 1px solid #e5e5e0;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+  }
+
+  .link-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 0.5px solid #e0e0da;
+  }
+
+  .link-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .link-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+  }
+
+  .link-url {
+    display: inline-block;
+    background: #1a1a1a;
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    text-decoration: none;
+  }
+
+  .link-url.placeholder {
+    background: #ccc;
+    color: #666;
+  }
+
+  .footer-seal {
+    text-align: center;
+    padding: 20px;
+    border-top: 2px solid #1a1a1a;
+    background: #1a1a1a;
+    color: white;
+  }
+
+  .seal-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .seal-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-top: 4px;
+  }
+
+  .mia-result-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 2px solid #1a1a1a;
+  }
+
+  .mia-stat {
+    padding: 16px;
+    text-align: center;
+    border-right: 1px solid #e5e5e0;
+  }
+
+  .mia-stat:last-child { border-right: none; }
+
+  .mia-stat-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 4px;
+  }
+
+  .mia-stat-value {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1;
+    color: #1a1a1a;
+  }
+
+  .mia-stat-sub {
+    font-size: 11px;
+    color: #888;
+    margin-top: 2px;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-flag">
+      <div class="flag-stripe flag-s1"></div>
+      <div class="flag-stripe flag-s2"></div>
+      <div class="flag-stripe flag-s3"></div>
+      <div class="flag-stripe flag-s4"></div>
+      <div class="flag-stripe flag-s5"></div>
+      <div class="flag-stripe flag-s6"></div>
+      <div class="flag-stripe flag-s7"></div>
+    </div>
+    <div class="fia-label">AMF1 Intern Prediction Championship</div>
+    <h1>
+      Official Bulletin
+      <span>R06 Miami Grand Prix — Post-Race Decisions</span>
+    </h1>
+    <div class="bulletin-meta">
+      <span>Season 2026</span>
+      <span>·</span>
+      <span>Issued by the Stewards</span>
+      <span>·</span>
+      <span>Not subject to appeal</span>
+    </div>
+  </div>
+
+  <!-- MIA STAT STRIP -->
+  <div class="mia-result-strip">
+    <div class="mia-stat">
+      <div class="mia-stat-label">Round Winner</div>
+      <div class="mia-stat-value">Ellie</div>
+      <div class="mia-stat-sub">Kendall — 21 pts</div>
+    </div>
+    <div class="mia-stat">
+      <div class="mia-stat-label">Championship Leader</div>
+      <div class="mia-stat-value">Ollie</div>
+      <div class="mia-stat-sub">Oldrey — 69 pts</div>
+    </div>
+    <div class="mia-stat">
+      <div class="mia-stat-label">Entries Received</div>
+      <div class="mia-stat-value">16</div>
+      <div class="mia-stat-sub">of 22 participants</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="doc-number">Bulletin No. 006 &nbsp;·&nbsp; Miami International Autodrome &nbsp;·&nbsp; 2026</div>
+
+    <p class="intro">
+      The Stewards of the AMF1 Intern Prediction Championship, having reviewed the timesheets, lap time submissions, and frankly some very questionable Q4 constructor picks, hereby issue the following official findings regarding Round 6, the Miami Grand Prix.
+    </p>
+
+    <!-- WINNERS -->
+    <div class="section-title">Stewards' Commendations</div>
+
+    <div class="verdict-block winner">
+      <div class="verdict-header">
+        <span class="verdict-name">Ellie Kendall</span>
+        <span class="verdict-score">21 pts · Round Winner</span>
+      </div>
+      <p>Ellie Kendall is hereby found to have been absolutely on the money in Miami, storming to the round win with 21 points and a 7-point gap to second. The Stewards note that while the actual F1 drivers were sweating in the Florida heat, Ellie was coolly predicting podiums from the comfort of the office. The championship has taken notice. Dangerous.</p>
+    </div>
+
+    <div class="verdict-block winner">
+      <div class="verdict-header">
+        <span class="verdict-name">Louis Tutin</span>
+        <span class="verdict-score">20 pts · P2 This Round</span>
+      </div>
+      <p>A strong 20 points for Louis, who quietly goes about his business like a backmarker team that somehow keeps finishing in the points. From zero in Melbourne to podium pace in Miami — the Stewards acknowledge this is very much not dead rubber form.</p>
+    </div>
+
+    <div class="verdict-block winner">
+      <div class="verdict-header">
+        <span class="verdict-name">Shaheer Aamer</span>
+        <span class="verdict-score">19 pts · P3 This Round</span>
+      </div>
+      <p>Shaheer takes P3 on the round and quietly moves up the overall standings. The Stewards are watching. The team radio from his race engineer (probably) was: "Good job, stay out of trouble, the championship is long." Sage advice.</p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- LOSERS -->
+    <div class="section-title">Stewards' Investigations</div>
+
+    <div class="verdict-block loser">
+      <div class="verdict-header">
+        <span class="verdict-name">Gian Marco Tornaghi</span>
+        <span class="verdict-score">3 pts · Last of Submitters</span>
+      </div>
+      <p>The Stewards regret to inform Gian Marco that 3 points is, statistically speaking, not ideal. The panel notes that even with the charitable addition of correct constructor picks, the overall return from Miami was — and the Stewards are choosing their words carefully here — catastrophic. An investigation into strategy is recommended. The Stewards wish him better luck in Canada, though they're not optimistic.</p>
+    </div>
+
+    <div class="verdict-block loser">
+      <div class="verdict-header">
+        <span class="verdict-name">Samantha Tullie</span>
+        <span class="verdict-score">4 pts · A Difficult Weekend</span>
+      </div>
+      <p>After sharing the championship lead not long ago, Samantha drops with only 4 points in Miami. The Stewards recognise that in Formula 1, momentum can shift in an instant — and this was very much an instant. The panel hope the flight to Canada includes some time for reflection.</p>
+    </div>
+
+   
+    <hr class="divider">
+
+    <!-- OVERALL STANDINGS -->
+    <div class="section-title">Championship Standings — After Round 6</div>
+
+    <table class="standings-table">
+      <thead>
+        <tr>
+          <th>Pos</th>
+          <th>Participant</th>
+          <th style="text-align:right">Miami</th>
+          <th style="text-align:right">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="leader">
+          <td><span class="pos-num p1">1</span></td>
+          <td><strong>Ollie Oldrey</strong></td>
+          <td style="text-align:right"><span class="round-score">10</span></td>
+          <td>69</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num p2">2</span></td>
+          <td>Anthony Zehnder</td>
+          <td style="text-align:right"><span class="round-score">16</span></td>
+          <td>53</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num p3">3</span></td>
+          <td>Hayden Nicholls</td>
+          <td style="text-align:right"><span class="round-score">16</span></td>
+          <td>52</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">4</span></td>
+          <td>Vedant Tayade</td>
+          <td style="text-align:right"><span class="round-score">7</span></td>
+          <td>51</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">4</span></td>
+          <td>Ellie Kendall</td>
+          <td style="text-align:right"><span class="round-score">21</span></td>
+          <td>51</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">6</span></td>
+          <td>Samantha Tullie</td>
+          <td style="text-align:right"><span class="round-score">4</span></td>
+          <td>50</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">6</span></td>
+          <td>Luke Maduabuchi</td>
+          <td style="text-align:right"><span class="round-score">10</span></td>
+          <td>50</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">8</span></td>
+          <td>Shaheer Aamer</td>
+          <td style="text-align:right"><span class="round-score">19</span></td>
+          <td>49</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">9</span></td>
+          <td>Matt Dowsett</td>
+          <td style="text-align:right"><span class="round-score">5</span></td>
+          <td>48</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">10</span></td>
+          <td>Louis Tutin</td>
+          <td style="text-align:right"><span class="round-score">20</span></td>
+          <td>45</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">10</span></td>
+          <td>Ashton Hill</td>
+          <td style="text-align:right"><span class="round-score">18</span></td>
+          <td>45</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">12</span></td>
+          <td>Archie Lether</td>
+          <td style="text-align:right" class="round-score" style="color:#ccc">—</td>
+          <td>44</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">13</span></td>
+          <td>Ryan Price</td>
+          <td style="text-align:right"><span class="round-score">11</span></td>
+          <td>40</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">13</span></td>
+          <td>Gian Marco Tornaghi</td>
+          <td style="text-align:right"><span class="round-score">3</span></td>
+          <td>40</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">15</span></td>
+          <td>Xavier Sharif-Choudhry</td>
+          <td style="text-align:right"><span class="round-score">5</span></td>
+          <td>39</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="font-size: 12px; color: #999; margin-top: 8px; margin-bottom: 28px;">Full standings available via the results sheet link below. Standings reflect corrected Suzuka scores.</p>
+
+    <hr class="divider">
+
+    <!-- CANADA BOX -->
+    <div class="canada-box">
+      <h3>⚑ Next Race: Canadian Grand Prix — Circuit Gilles Villeneuve</h3>
+      <p>
+        The championship now heads north to Montreal for Round 7, the Canadian Grand Prix. The Circuit Gilles Villeneuve is famously unforgiving — much like the Stewards — with its wall of champions ready to claim another victim. Will Ollie extend his lead? Will anyone dethrone him? Will Gian Marco score more than 3 points? The Stewards believe only one of these is genuinely in doubt.
+      </p>
+      <p style="margin-top: 10px;">
+        The form for Round 7 is now live. The Stewards remind all participants that <strong>the window closes at 17:30 on Friday</strong>. Late submissions will be treated with the same sympathy the Stewards extend to unsafe releases: none whatsoever.
+      </p>
+      <div class="deadline-pill">⏱ Form closes Friday 17:30 — no exceptions</div>
+    </div>
+
+    <!-- LINKS -->
+    <div class="section-title">Official Documents &amp; Links</div>
+
+    <div class="links-section">
+      <div class="link-row">
+        <span class="link-label">📊 Championship Results Sheet</span>
+        <a href="https://rpukltd-my.sharepoint.com/:x:/g/personal/ollie_oldrey_astonmartinf1_com/IQC8GS1TMgYdTahScEsfKtiRAQAo0v3eaIxcQ7VxIIw50h8?e=RAThqV" class="link-url" style="background:#e8003d">Championship Results</a>
+      </div>
+      <div class="link-row">
+        <span class="link-label">📋 Raw Responses</span>
+        <a href="https://rpukltd-my.sharepoint.com/:x:/g/personal/ollie_oldrey_astonmartinf1_com/IQBGFoxSR6UZSYiGcI6sszp6ATkVbENLVJmaMtj9ThkBNvE?e=7f5rRT" class="link-url" style="background:#e8003d">Raw Responses</a>
+      </div>
+      <div class="link-row">
+        <span class="link-label">📝 R07 Canada — Prediction Form</span>
+        <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=lqyCTWsU00Sx6AyRpgyH6cnxeC0xAAlCj31k5FE4uIJUOUVVMlNEU1Q5M1dYM04zQ0xJR1NFM1FJVi4u" class="link-url" style="background:#e8003d">Form</a>
+      </div>
+    </div>
+
+    <p style="font-size: 12px; color: #aaa; line-height: 1.6;">
+      This bulletin is issued under the authority of the AMF1 Intern Prediction Championship Stewards. All decisions are final. The Stewards accept no correspondence regarding the fairness of lap time scoring. Any complaints may be submitted to the FIA Court of Appeal, whose address we have tragically misplaced.
+    </p>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-seal">
+    <div class="seal-text">Issued by the Stewards of the Meeting</div>
+    <div class="seal-name">AMF1 Intern Prediction Championship</div>
+    <div class="seal-text" style="margin-top: 6px;">Season 2026 &nbsp;·&nbsp; All times GMT+1 &nbsp;·&nbsp; Subject to the Sporting Regulations</div>
+  </div>
+
+</div>
+
+</body>
+</html>
