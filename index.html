@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMF1 Intern Prediction Championship — Montreal Bulletin</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f0f0ec;
+    font-family: 'Barlow', sans-serif;
+    color: #1a1a1a;
+    padding: 32px 16px;
+  }
+
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+    background: #fff;
+    border: 2px solid #1a1a1a;
+  }
+
+  .header {
+    background: #e8003d;
+    color: white;
+    padding: 24px 32px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header-flag {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 140px;
+    display: flex;
+  }
+
+  .flag-stripe { flex: 1; opacity: 0.12; }
+  .flag-s1 { background: #ff0000; }
+  .flag-s2 { background: #fff; }
+  .flag-s3 { background: #ff0000; }
+  .flag-s4 { background: #fff; }
+  .flag-s5 { background: #ff0000; }
+  .flag-s6 { background: #fff; }
+  .flag-s7 { background: #ff0000; }
+
+  .fia-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.8;
+    margin-bottom: 4px;
+  }
+
+  .header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    position: relative;
+  }
+
+  .header h1 span {
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    opacity: 0.85;
+    margin-top: 2px;
+  }
+
+  .bulletin-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 16px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.75;
+    font-weight: 600;
+    position: relative;
+  }
+
+  .body { padding: 32px; }
+
+  .doc-number {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #e8003d;
+    margin-bottom: 20px;
+  }
+
+  .intro {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #222;
+    margin-bottom: 28px;
+    border-left: 3px solid #e8003d;
+    padding-left: 16px;
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 0.5px solid #ddd;
+  }
+
+  .verdict-block {
+    background: #fafaf8;
+    border: 1px solid #e5e5e0;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+
+  .verdict-block.winner { border-left: 4px solid #00a04a; }
+  .verdict-block.loser { border-left: 4px solid #e8003d; }
+  .verdict-block.notable { border-left: 4px solid #f5a623; }
+  .verdict-block.climber { border-left: 4px solid #0066cc; }
+
+  .verdict-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .verdict-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+  }
+
+  .verdict-score {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #888;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .verdict-block p { font-size: 14px; line-height: 1.6; color: #333; }
+
+  .standings-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .standings-table th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #999;
+    text-align: left;
+    padding: 6px 8px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .standings-table th:last-child, .standings-table th.right { text-align: right; }
+
+  .standings-table td {
+    padding: 7px 8px;
+    border-bottom: 0.5px solid #f0f0ec;
+    color: #222;
+  }
+
+  .standings-table td:last-child {
+    text-align: right;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .standings-table tr.leader td { background: #fff8e1; font-weight: 500; }
+
+  .pos-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #bbb;
+    width: 28px;
+    display: inline-block;
+  }
+
+  .pos-num.p1 { color: #e8b800; }
+  .pos-num.p2 { color: #aaa; }
+  .pos-num.p3 { color: #cd7f32; }
+
+  .round-score {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    color: #00a04a;
+    font-weight: 700;
+  }
+
+  .round-score.zero { color: #ccc; }
+
+  .change-badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 6px;
+    display: inline-block;
+  }
+
+  .change-badge.up { background: #e6f4ee; color: #00a04a; }
+  .change-badge.down { background: #fdf0f0; color: #e8003d; }
+  .change-badge.flat { color: #ccc; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #e5e5e0;
+    margin: 28px 0;
+  }
+
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 2px solid #1a1a1a;
+  }
+
+  .stat-cell {
+    padding: 16px;
+    text-align: center;
+    border-right: 1px solid #e5e5e0;
+  }
+
+  .stat-cell:last-child { border-right: none; }
+
+  .stat-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 4px;
+  }
+
+  .stat-value {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1;
+    color: #1a1a1a;
+  }
+
+  .stat-sub { font-size: 11px; color: #888; margin-top: 2px; }
+
+  .links-section {
+    background: #f5f5f0;
+    border: 1px solid #e5e5e0;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+  }
+
+  .link-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 0.5px solid #e0e0da;
+  }
+
+  .link-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .link-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .link-url {
+    display: inline-block;
+    background: #e8003d;
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    text-decoration: none;
+  }
+
+  .footer-seal {
+    text-align: center;
+    padding: 20px;
+    border-top: 2px solid #1a1a1a;
+    background: #1a1a1a;
+    color: white;
+  }
+
+  .seal-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .seal-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-top: 4px;
+  }
+
+  .animal-box {
+    background: #f0f7ff;
+    border: 1px solid #cce0f5;
+    border-left: 4px solid #0066cc;
+    padding: 16px 20px;
+    margin-bottom: 28px;
+  }
+
+  .animal-box h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #0066cc;
+    margin-bottom: 8px;
+  }
+
+  .animal-box p { font-size: 14px; line-height: 1.6; color: #333; }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-flag">
+      <div class="flag-stripe flag-s1"></div>
+      <div class="flag-stripe flag-s2"></div>
+      <div class="flag-stripe flag-s3"></div>
+      <div class="flag-stripe flag-s4"></div>
+      <div class="flag-stripe flag-s5"></div>
+      <div class="flag-stripe flag-s6"></div>
+      <div class="flag-stripe flag-s7"></div>
+    </div>
+    <div class="fia-label">AMF1 Intern Prediction Championship</div>
+    <h1>
+      Official Bulletin
+      <span>R07 Canadian Grand Prix — Post-Race Decisions</span>
+    </h1>
+    <div class="bulletin-meta">
+      <span>Season 2026</span>
+      <span>·</span>
+      <span>Issued by the Stewards</span>
+      <span>·</span>
+      <span>Not subject to appeal</span>
+    </div>
+  </div>
+
+  <!-- STAT STRIP -->
+  <div class="stat-strip">
+    <div class="stat-cell">
+      <div class="stat-label">Round Winner</div>
+      <div class="stat-value">Three-Way</div>
+      <div class="stat-sub">Ollie · Shaheer · Louis — 18 pts</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-label">Championship Leader</div>
+      <div class="stat-value">Ollie</div>
+      <div class="stat-sub">Oldrey — 87 pts</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-label">Animals on Track</div>
+      <div class="stat-value">0</div>
+      <div class="stat-sub">A historic first</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="doc-number">Bulletin No. 007 &nbsp;·&nbsp; Circuit Gilles Villeneuve, Montréal &nbsp;·&nbsp; 2025</div>
+
+    <p class="intro">
+      The Stewards of the AMF1 Intern Prediction Championship, convening in an unusually orderly session uninterrupted by wildlife of any kind, hereby issue the following official findings regarding Round 7, the Canadian Grand Prix. The paddock has noted the absence of groundhogs, geese, and other creatures previously known to delay proceedings. The Stewards are frankly suspicious.
+    </p>
+
+
+    <!-- ROUND WINNERS -->
+    <div class="section-title">Stewards' Commendations — Round 7</div>
+
+ 
+
+    <div class="verdict-block winner">
+      <div class="verdict-header">
+        <span class="verdict-name">Shaheer Aamer</span>
+        <span class="verdict-score">18 pts · Joint Round Winner · ↑4 to P3 Overall</span>
+      </div>
+      <p>Shaheer rockets from P7 to P3 overall on the back of an 18-point Montreal haul. Four positions gained in a single round is the kind of form that makes championship leaders nervous. The Stewards formally place Ollie Oldrey on notice. Shaheer is coming, and unlike the geese, he gave absolutely no warning.</p>
+    </div>
+
+    <div class="verdict-block winner">
+      <div class="verdict-header">
+        <span class="verdict-name">Louis Tutin</span>
+        <span class="verdict-score">18 pts · Joint Round Winner · ↑4 to P5 Overall</span>
+      </div>
+      <p>Louis also bags 18 points and climbs four places to P5. At this rate of ascent, the Stewards calculate Louis will overtake Ollie sometime around the Belgian Grand Prix — assuming Ollie doesn't score another 18 points first, which he probably will. Still: genuinely dangerous form.</p>
+    </div>
+
+    <div class="verdict-block climber">
+      <div class="verdict-header">
+        <span class="verdict-name">Vedant Tayade</span>
+        <span class="verdict-score">17 pts · ↑7 — Biggest Climber of the Round</span>
+      </div>
+      <p>The Stewards award the unofficial Driver of the Day to Vedant, who vaults an extraordinary seven places from P15 to P8. Seven. In one round. From the back of the midfield to the edge of the top ten in a single afternoon. The Stewards are formally requesting Vedant's strategy notes. He had previously scored zero in Suzuka, which makes this even more remarkable — or suggests he simply guessed better this time. Either way: hats off.</p>
+    </div>
+
+    <div class="verdict-block climber">
+      <div class="verdict-header">
+        <span class="verdict-name">James Mitchell</span>
+        <span class="verdict-score">18 pts · ↑2 to P14 Overall</span>
+      </div>
+      <p>James scores a joint-best 18 points in Montreal, climbing two places and quietly making the case that his earlier low scores were just a warm-up. The Stewards note that P14 is still P14, but the trajectory is pointing firmly in the right direction. More of this please, James.</p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- INVESTIGATIONS -->
+    <div class="section-title">Stewards' Investigations</div>
+
+    <div class="verdict-block loser">
+      <div class="verdict-header">
+        <span class="verdict-name">Anthony Zehnder</span>
+        <span class="verdict-score">0 pts · ↓7 — Biggest Faller of the Round</span>
+      </div>
+      <p>Anthony entered Montreal in P3 overall. He exits in P10. A seven-place drop in a single round is the sort of thing that happens when you don't submit a form — and indeed, Anthony did not submit a form. The Stewards note that Anthony had 52 points before Montreal and still has 52 points after Montreal, which is a mathematically accurate way of saying this was a catastrophic weekend. The panel wishes him a swift recovery and strongly recommends remembering to fill in the form for Silverstone.</p>
+    </div>
+
+
+    <div class="verdict-block notable">
+      <div class="verdict-header">
+        <span class="verdict-name">Ellie Kendall</span>
+        <span class="verdict-score">9 pts · ↓3 to P7 Overall</span>
+      </div>
+      <p>After winning the Miami round outright, Ellie drops three places in Montreal with 9 points. The Stewards acknowledge that following up a dominant performance is never easy — just ask any constructor who led the championship in April. The panel fully expects a bounce-back, but are keeping a watchful eye.</p>
+    </div>
+
+
+
+    <hr class="divider">
+
+    <!-- STANDINGS -->
+    <div class="section-title">Championship Standings — After Round 7</div>
+
+    <table class="standings-table">
+      <thead>
+        <tr>
+          <th>Pos</th>
+          <th>Participant</th>
+          <th class="right">Chg</th>
+          <th class="right">MTL</th>
+          <th style="text-align:right">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td><span class="pos-num p2">2</span></td>
+          <td>Hayden Nicholls</td>
+          <td style="text-align:right"><span class="change-badge flat">—</span></td>
+          <td style="text-align:right"><span class="round-score">15</span></td>
+          <td>67</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num p3">3</span></td>
+          <td>Shaheer Aamer</td>
+          <td style="text-align:right"><span class="change-badge up">↑4</span></td>
+          <td style="text-align:right"><span class="round-score">18</span></td>
+          <td>66</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">4</span></td>
+          <td>Samantha Tullie</td>
+          <td style="text-align:right"><span class="change-badge up">↑1</span></td>
+          <td style="text-align:right"><span class="round-score">14</span></td>
+          <td>64</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">5</span></td>
+          <td>Louis Tutin</td>
+          <td style="text-align:right"><span class="change-badge up">↑4</span></td>
+          <td style="text-align:right"><span class="round-score">18</span></td>
+          <td>63</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">6</span></td>
+          <td>Luke Maduabuchi</td>
+          <td style="text-align:right"><span class="change-badge flat">—</span></td>
+          <td style="text-align:right"><span class="round-score">11</span></td>
+          <td>61</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">7</span></td>
+          <td>Ellie Kendall</td>
+          <td style="text-align:right"><span class="change-badge down">↓3</span></td>
+          <td style="text-align:right"><span class="round-score">9</span></td>
+          <td>60</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">8</span></td>
+          <td>Vedant Tayade</td>
+          <td style="text-align:right"><span class="change-badge up">↑7</span></td>
+          <td style="text-align:right"><span class="round-score">17</span></td>
+          <td>55</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">9</span></td>
+          <td>Matt Dowsett</td>
+          <td style="text-align:right"><span class="change-badge down">↓1</span></td>
+          <td style="text-align:right"><span class="round-score">7</span></td>
+          <td>55</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">10</span></td>
+          <td>Anthony Zehnder</td>
+          <td style="text-align:right"><span class="change-badge down">↓7</span></td>
+          <td style="text-align:right"><span class="round-score zero">—</span></td>
+          <td>52</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">11</span></td>
+          <td>Ashton Hill</td>
+          <td style="text-align:right"><span class="change-badge down">↓1</span></td>
+          <td style="text-align:right"><span class="round-score">5</span></td>
+          <td>50</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">12</span></td>
+          <td>Ryan Price</td>
+          <td style="text-align:right"><span class="change-badge flat">—</span></td>
+          <td style="text-align:right"><span class="round-score">10</span></td>
+          <td>50</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">13</span></td>
+          <td>Gian Marco Tornaghi</td>
+          <td style="text-align:right"><span class="change-badge flat">—</span></td>
+          <td style="text-align:right"><span class="round-score">8</span></td>
+          <td>48</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">14</span></td>
+          <td>James Mitchell</td>
+          <td style="text-align:right"><span class="change-badge up">↑2</span></td>
+          <td style="text-align:right"><span class="round-score">18</span></td>
+          <td>45</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">15</span></td>
+          <td>Archie Lether</td>
+          <td style="text-align:right"><span class="change-badge down">↓4</span></td>
+          <td style="text-align:right"><span class="round-score zero">—</span></td>
+          <td>44</td>
+        </tr>
+        <tr>
+          <td><span class="pos-num">16</span></td>
+          <td>Xavier Sharif-Choudhry</td>
+          <td style="text-align:right"><span class="change-badge down">↓2</span></td>
+          <td style="text-align:right"><span class="round-score zero">—</span></td>
+          <td>39</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="font-size: 12px; color: #999; margin-top: 8px; margin-bottom: 28px;">Full standings including all participants available via the results sheet link below.</p>
+
+    <hr class="divider">
+
+    <!-- LINKS -->
+    <div class="section-title">Official Documents &amp; Links</div>
+
+    <div class="links-section">
+      <div class="link-row">
+        <span class="link-label">📊 Championship Results Sheet</span>
+        <a href="https://rpukltd-my.sharepoint.com/:x:/g/personal/ollie_oldrey_astonmartinf1_com/IQC8GS1TMgYdTahScEsfKtiRAQAo0v3eaIxcQ7VxIIw50h8?e=gyaifr" class="link-url">View Sheet</a>
+      </div>
+      <div class="link-row">
+        <span class="link-label">📋 Raw Responses</span>
+        <a href="https://rpukltd-my.sharepoint.com/:x:/g/personal/ollie_oldrey_astonmartinf1_com/IQDzn0h1bo2iR4wmppuT0wLnAcz14C2N6w4wXuhoAKIdark?e=ZOj8Yf" class="link-url">View Responses</a>
+      </div>
+      <div class="link-row">
+        <span class="link-label">🏁 Monaco Form</span>
+        <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=lqyCTWsU00Sx6AyRpgyH6cnxeC0xAAlCj31k5FE4uIJUMUM5TzQ5TFZGQ044RTFTQ0laVjJFV1RCMC4u" class="link-url">Answer Now</a>
+      </div>
+    </div>
+
+    <p style="font-size: 12px; color: #aaa; line-height: 1.6;">
+      This bulletin is issued under the authority of the AMF1 Intern Prediction Championship Stewards. All decisions are final. The Stewards' findings on the absence of animals are not subject to review by any wildlife authority. The Championship resumes at the next round — the form will be circulated in due course, and the Stewards expect all participants to actually fill it in this time.
+    </p>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-seal">
+    <div class="seal-text">Issued by the Stewards of the Meeting</div>
+    <div class="seal-name">AMF1 Intern Prediction Championship</div>
+    <div class="seal-text" style="margin-top: 6px;">Season 2026 &nbsp;·&nbsp; All times BST &nbsp;·&nbsp; Subject to the Sporting Regulations</div>
+  </div>
+
+</div>
+
+</body>
+</html>
